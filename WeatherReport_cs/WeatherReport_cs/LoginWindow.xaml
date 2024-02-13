@@ -1,0 +1,47 @@
+﻿<Window x:Class="WeatherReport_cs.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherReport_cs"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="400" Width="350">
+    <Grid Name="Grid">
+        <Grid.ContextMenu>
+            <ContextMenu Name="ContextMenu">
+                <MenuItem Header="关于" Click="on_About_Click" />
+                <MenuItem Header="隐藏功能" Click="on_Secret_Click" />
+                <MenuItem Header="退出" Click="on_Exit_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+        
+        <Image Source="Images/米娅.png" Stretch="UniformToFill"/>
+        <Label Name="lab_userName" Background="Bisque" FontFamily="方正粗黑宋简体" FontSize="12" Opacity="0.8" Content="用户名:" HorizontalAlignment="Left" Margin="67,192,0,0" VerticalAlignment="Top" Height="28" Width="50"/>
+        <TextBox Style="{DynamicResource TextBoxStyle1}"  Name="text_userName" FontSize="12"  FontFamily="方正粗黑宋简体" Background="Azure" HorizontalAlignment="Left" Margin="146,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Label Name="lab_password" Content=" 密码:" FontFamily="方正粗黑宋简体" Background="Bisque" HorizontalAlignment="Left" Margin="67,227,0,0" VerticalAlignment="Top" Height="28" Width="50"/>
+        <PasswordBox Name="text_password" HorizontalAlignment="Left" Background="Azure" BorderThickness="1" Margin="146,227,0,0" VerticalAlignment="Top" Width="120" Height="30"/>
+
+        <Button Name="btn_login" Content="登录" FontFamily="方正粗黑宋简体" HorizontalAlignment="Left" Margin="67,291,0,0" VerticalAlignment="Top" Height="30" Width="70" Click="btn_login_Click" Style="{DynamicResource ButtonStyle}">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Name="btn_register" Content="注册" FontFamily="方正粗黑宋简体" HorizontalAlignment="Left" Margin="196,291,0,0" VerticalAlignment="Top" Height="30" Width="70" Click="btn_register_Click" Style="{DynamicResource ButtonStyle}">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label Name="text_stat" Background="Coral" Content="登录状态信息" FontFamily="方正粗黑宋简体" HorizontalAlignment="Left" Margin="67,260,0,0" VerticalAlignment="Top" Height="26" Width="199"/>
+
+    </Grid>
+</Window>

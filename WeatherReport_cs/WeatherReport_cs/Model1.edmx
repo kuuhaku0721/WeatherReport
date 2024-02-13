@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CityWeatherModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="北京市">
+          <Key>
+            <PropertyRef Name="seq" />
+          </Key>
+          <Property Name="日期" Type="nvarchar" MaxLength="50" />
+          <Property Name="省份" Type="nvarchar" MaxLength="50" />
+          <Property Name="城市" Type="nvarchar" MaxLength="50" />
+          <Property Name="天气类型" Type="nvarchar" MaxLength="50" />
+          <Property Name="温度" Type="nvarchar" MaxLength="50" />
+          <Property Name="风向" Type="nvarchar" MaxLength="50" />
+          <Property Name="风力" Type="nvarchar" MaxLength="50" />
+          <Property Name="湿度" Type="nvarchar" MaxLength="50" />
+          <Property Name="空气质量" Type="nvarchar" MaxLength="50" />
+          <Property Name="seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="夜之城">
+          <Key>
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="日期" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="省份" Type="nchar" MaxLength="10" />
+          <Property Name="城市" Type="nchar" MaxLength="10" />
+          <Property Name="天气类型" Type="nchar" MaxLength="10" />
+          <Property Name="温度" Type="nchar" MaxLength="10" />
+          <Property Name="风向" Type="nchar" MaxLength="10" />
+          <Property Name="风力" Type="nchar" MaxLength="10" />
+          <Property Name="湿度" Type="nchar" MaxLength="10" />
+          <Property Name="空气质量" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="CityWeatherModelStoreContainer">
+          <EntitySet Name="北京市" EntityType="Self.北京市" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="夜之城" EntityType="Self.夜之城" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CityWeatherModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="北京市">
+          <Key>
+            <PropertyRef Name="seq" />
+          </Key>
+          <Property Name="日期" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="省份" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="城市" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="天气类型" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="温度" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="风向" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="风力" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="湿度" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="空气质量" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="夜之城">
+          <Key>
+            <PropertyRef Name="日期" />
+          </Key>
+          <Property Name="日期" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="省份" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="城市" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="天气类型" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="温度" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="风向" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="风力" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="湿度" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="空气质量" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="CityWeatherEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="北京市" EntityType="Self.北京市" />
+          <EntitySet Name="夜之城" EntityType="Self.夜之城" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CityWeatherModelStoreContainer" CdmEntityContainer="CityWeatherEntities1">
+          <EntitySetMapping Name="北京市">
+            <EntityTypeMapping TypeName="CityWeatherModel.北京市">
+              <MappingFragment StoreEntitySet="北京市">
+                <ScalarProperty Name="日期" ColumnName="日期" />
+                <ScalarProperty Name="省份" ColumnName="省份" />
+                <ScalarProperty Name="城市" ColumnName="城市" />
+                <ScalarProperty Name="天气类型" ColumnName="天气类型" />
+                <ScalarProperty Name="温度" ColumnName="温度" />
+                <ScalarProperty Name="风向" ColumnName="风向" />
+                <ScalarProperty Name="风力" ColumnName="风力" />
+                <ScalarProperty Name="湿度" ColumnName="湿度" />
+                <ScalarProperty Name="空气质量" ColumnName="空气质量" />
+                <ScalarProperty Name="seq" ColumnName="seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="夜之城">
+            <EntityTypeMapping TypeName="CityWeatherModel.夜之城">
+              <MappingFragment StoreEntitySet="夜之城">
+                <ScalarProperty Name="日期" ColumnName="日期" />
+                <ScalarProperty Name="省份" ColumnName="省份" />
+                <ScalarProperty Name="城市" ColumnName="城市" />
+                <ScalarProperty Name="天气类型" ColumnName="天气类型" />
+                <ScalarProperty Name="温度" ColumnName="温度" />
+                <ScalarProperty Name="风向" ColumnName="风向" />
+                <ScalarProperty Name="风力" ColumnName="风力" />
+                <ScalarProperty Name="湿度" ColumnName="湿度" />
+                <ScalarProperty Name="空气质量" ColumnName="空气质量" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

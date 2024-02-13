@@ -1,0 +1,219 @@
+﻿<Window x:Class="WeatherReport_cs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherReport_cs"
+        mc:Ignorable="d"
+        Title="天气预报 ver:kuuhaku" Height="480" Width="830">
+
+    <Grid Name="Grid">
+        <Grid.ContextMenu>
+            <ContextMenu Name="ContextMenu">
+                <MenuItem Header="查看类型" Click="on_OpenType_Click"/>
+                <MenuItem Header="改变颜色" Click="on_AdjustColor_Click"/>
+                <MenuItem Header="改变不透明度" Click="on_AdjustOpacity_Click"/>
+                <MenuItem Header="改变背景" Click="on_bkground_Click"/>
+                <MenuItem Name="menu_mia" Header="米娅纯享" Click="on_PureEnjoyment_click"/>
+                <MenuItem Header="关于" Click="on_About_Click" />
+                <MenuItem Header="退出" Click="on_Exit_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+        <Image Name="bkground" Source="Images/weaUI.png" Stretch="UniformToFill"/>
+        <Label Name="lab_title" Style="{DynamicResource LabelStyle2}"  Content="   天气预报  "  HorizontalAlignment="Left" Margin="70,8,0,0" VerticalAlignment="Top" Height="54" Width="177"/>
+        <Label Name="lab_Logo" Content="Logo" HorizontalAlignment="Left" VerticalAlignment="Top" Height="62" Width="65"/>
+        <Label Style="{DynamicResource LabelStyle1}"  Name="label_date" Content="2023-12-20"  HorizontalAlignment="Left" Margin="247,8,0,0" VerticalAlignment="Top" FontSize="25" Height="54" Width="227"/>
+        <TextBox Style="{DynamicResource TextBoxStyle1}" Name="t_search" HorizontalAlignment="Left" Margin="506,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="29" TextChanged="TextBox_TextChanged"/>
+        <Button Style="{DynamicResource ButtonStyle1}"   Name="b_search"  HorizontalAlignment="Left" Margin="687,10,0,0" VerticalAlignment="Top" Height="29" Width="48" RenderTransformOrigin="0.138,0.865" Click="b_search_Click">
+            <Viewbox>
+                <Image  Source="Images/search.png" Stretch="Uniform" RenderTransformOrigin="0.098,0.098">
+                </Image>
+            </Viewbox>
+        </Button>
+        <Button Style="{DynamicResource ButtonStyle1}" Name ="b_refresh"  HorizontalAlignment="Left" Margin="751,12,0,0" VerticalAlignment="Top" Height="29" Width="38" Click="b_refresh_Click">
+            <Viewbox>
+                <Image Source="Images/refresh.png" Stretch="Uniform" Height="194" RenderTransformOrigin="0.064,0.064">
+                </Image>
+            </Viewbox>
+
+        </Button>
+
+
+        <Grid Name="today_total" Margin="17,182,499,103" Background="#FF955CDD" Opacity="0.4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+
+            </Grid.ColumnDefinitions>
+            <Label Name="Before_city" Style="{DynamicResource LabelStyle5}" Content="城市"  HorizontalAlignment="Left" Height="45" Margin="40,0,0,0" VerticalAlignment="Center" Width="83" RenderTransformOrigin="2.113,0.737"/>
+            <Label Name="Before_shidu" Content="湿度"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="1" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
+            <Label Name="Before_fengxiang" Content="风向"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="2" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
+            <Label Name="Before_fengli" Content="风力"  HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="69" Grid.Row="3" Style="{DynamicResource LabelStyle5}" Margin="0,5,0,0"/>
+            <Label Name="label_City"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Center" Width="104" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Style="{DynamicResource LabelStyle5}"/>
+            <Label Name="label_shidu"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="82" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Margin="0,42,0,0" Grid.RowSpan="2" Style="{DynamicResource LabelStyle5}"/>
+            <Label Name="label_fengli"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="82" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Margin="0,2,0,0" Grid.RowSpan="2" Grid.Row="2" Style="{DynamicResource LabelStyle5}"/>
+            <Label Name="label_fengxiang"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="82" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Margin="0,2,0,0" Grid.Row="3" Style="{DynamicResource LabelStyle5}"/>
+        </Grid>
+
+        <Grid Name="forecast_total" Margin="411,46,11,83" Background="Transparent"  >
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.296"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0"  Background="#FF955CDD" Opacity="0.7" Margin="4,0,0,0">
+                <Label Style="{DynamicResource LabelStyle6}"  x:Name="week01"  />
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1" Background="#FF955CDD" Opacity="0.7">
+                <Label Name="week02"   Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="2" Background="#FF955CDD" Opacity="0.7">
+                <Label Name="week03"  Margin="-3,0,0,4" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="3" Background="#FF955CDD" Opacity="0.7" >
+                <Label  Name="week04"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="41" Width="93" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid Grid.Row="1"  Grid.Column="0" Background="#FF955CDD" Opacity="0.7">
+
+                <Label Name="date01" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1" Background="#FF955CDD" Opacity="0.7">
+                <Label  Name="date02" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2" Background="#FF955CDD" Opacity="0.7">
+                <Label  Name="date03" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="3" Background="#FF955CDD" Opacity="0.7">
+
+                <Label  Name="date04" Style="{DynamicResource LabelStyle6}"/>
+
+            </Grid>
+            <Grid  Grid.Row="2" Grid.Column="0" Background="#FF4D0BA0" Opacity="0.8" >
+                <Label Content="" Name="power01" FontSize="25" Foreground="Wheat" Margin="12,1,20,3"/>
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1" Background="#FF4D0BA0" Opacity="0.8">
+                <Label  Name="power02" FontSize="25" Foreground="Wheat" Margin="12,1,20,4" />
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="2" Background="#FF4D0BA0" Opacity="0.8">
+                <Label  Name="power03" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="3" Background="#FF4D0BA0" Opacity="0.8">
+                <Label  Name="power04" FontSize="25" Foreground="Wheat" Margin="12,1,20,4" />
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="0" Background="#FF4D0BA0" Opacity="0.7" >
+                <Label  Name="type01" Style="{DynamicResource LabelStyle6}" Margin="12,0,20,3" />
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="1" Background="#FF4D0BA0" Opacity="0.7" >
+                <Label Content=""  Name="type02" Style="{DynamicResource LabelStyle6}" Margin="12,0,20,3"/>
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="2" Background="#FF4D0BA0" Opacity="0.7" >
+                <Label Content=""  Name="type03" Style="{DynamicResource LabelStyle6}" Margin="12,0,20,3"/>
+
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="3" Background="#FF4D0BA0" Opacity="0.7" >
+                <Label Content=""  Name="type04" Style="{DynamicResource LabelStyle6}" Margin="12,0,20,3"/>
+
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.Column="0" Background="#FF2A0658" Opacity="0.7" >
+                <Label   Name="image01"/>
+
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="1" Background="#FF2A0658" Opacity="0.7" >
+                <Label  Name="image02"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="2" Background="#FF2A0658" Opacity="0.7">
+                <Label  Name="image03"/>
+
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="3" Background="#FF2A0658" Opacity="0.7">
+                <Label  Name="image04"/>
+
+            </Grid>
+            <Grid Grid.Row="5" Grid.Column="0" Background="#FF2A0658" Opacity="0.7" >
+                <Label  Name="high01" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+
+            </Grid>
+            <Grid Grid.Row="5" Grid.Column="1" Background="#FF2A0658" Opacity="0.7">
+                <Label  Name="high02" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+
+            </Grid>
+            <Grid Grid.Row="5" Grid.Column="2" Background="#FF2A0658" Opacity="0.7">
+                <Label  Name="high03" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+
+            </Grid>
+            <Grid Grid.Row="5" Grid.Column="3" Background="#FF2A0658" Opacity="0.7">
+                <Label  Name="high04" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+
+            </Grid>
+
+            <Grid Grid.Row="6" Grid.Column="0" Background="#FF4D0BA0" Opacity="0.7">
+                <Label  Name="low01" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+
+            </Grid>
+            <Grid Grid.Row="6" Grid.Column="1" Background="#FF4D0BA0" Opacity="0.7">
+                <Label  Name="low02" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+            </Grid>
+            <Grid Grid.Row="6" Grid.Column="2" Background="#FF4D0BA0" Opacity="0.7">
+                <Label  Name="low03" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+            </Grid>
+            <Grid Grid.Row="6" Grid.Column="3" Background="#FF4D0BA0" Opacity="0.7" >
+                <Label  Name="low04" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+            </Grid>
+        </Grid>
+        <Grid Margin="10,62,415,283" Background="Transparent" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="105*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="132*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="17°"  FontStretch="Medium" Name="label_temparture" Opacity="0.8" Foreground="#FFFCFF00"  FontFamily="方正粗黑宋简体" FontSize="65" Height="99" VerticalAlignment="Center" FontWeight="Bold" FontStyle="Italic" RenderTransformOrigin="0.618,0.63" Margin="126,0,0,0" Grid.ColumnSpan="2"/>
+            <Label Grid.Column="2" Name="lable_location" Content="河南省" HorizontalAlignment="Center" Height="39" Margin="10,21,0,0"  Foreground="#FFFCFF00" FontSize="18" Opacity="0.8" FontFamily="方正粗黑宋简体" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Width="124"/>
+            <Label Grid.Column="2" Name="label_weather" HorizontalAlignment="Center" Margin="10,50,0,0" VerticalAlignment="Top" Height="57" Width="118">
+                <Viewbox>
+                    <Image Source="Images/day/晴.png" Height="231" Width="198"></Image>
+                </Viewbox>
+            </Label>
+            <Label Name="label_con" Content="祝愿您拥有幸福快乐的每一天" Opacity="0.5" Foreground="#FFFCFF00" FontSize="13"   FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" Margin="5,78,0,0" Width="262" Height="32" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+        </Grid>
+        <DataGrid Name="dataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Single" CellEditEnding="dataGrid_CellEditEnding" Background="#FF4D0BA0" Opacity="0.5" Foreground="#FF4D0BA0" FontFamily="Microsoft YaHei" HorizontalAlignment="Left" Width="603" Height="103" VerticalAlignment="Top" Margin="17,362,0,0"/>
+        <TextBox Name="statMsg" Text="         愿你每天都安好" FontSize="15" Opacity="0.5" Foreground="Red" Background="#FF4D0BA0" HorizontalAlignment="Center" Margin="625,362,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="195"/>
+    </Grid>
+</Window>
