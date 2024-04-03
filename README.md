@@ -79,6 +79,20 @@
 
 3、窗口背景角色名为米娅，来自《Loopers》
 
+## 运行效果
 
+![image-20240403221210518](README.assets/image-20240403221210518.png)
+
+<center>[登录界面]</center>
+
+![image-20240403221238730](README.assets/image-20240403221238730.png)
+
+![image-20240403221247856](README.assets/image-20240403221247856.png)
+
+<center>[主界面]</center>
+
+![image-20240403221306023](README.assets/image-20240403221306023.png)
+
+<center>[右键菜单]</center>
 
 <u>Origin: kuuhaku</u>
