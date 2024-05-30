@@ -269,6 +269,7 @@
     <Compile Include="UserManager.cs">
       <DependentUpon>User.tt</DependentUpon>
     </Compile>
+    <Compile Include="WeatherClient.cs" />
     <Compile Include="WeatherTool.cs" />
     <Compile Include="WeatherTypeImage.xaml.cs">
       <DependentUpon>WeatherTypeImage.xaml</DependentUpon>
@@ -502,6 +503,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.5.1.1\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.5.1.1\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

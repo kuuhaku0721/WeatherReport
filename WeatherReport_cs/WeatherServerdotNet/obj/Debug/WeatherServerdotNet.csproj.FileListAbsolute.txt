@@ -1,0 +1,16 @@
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\UserInfo.mdf
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\UserInfo_log.ldf
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\WeatherServerdotNet.exe.config
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\WeatherServerdotNet.exe
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\WeatherServerdotNet.pdb
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\EntityFramework.dll
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\EntityFramework.SqlServer.dll
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\EntityFramework.xml
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\EntityFramework.SqlServer.xml
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\zh-Hans\EntityFramework.resources.dll
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\bin\Debug\zh-Hans\EntityFramework.SqlServer.resources.dll
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\obj\Debug\WeatherServerdotNet.csproj.AssemblyReference.cache
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\obj\Debug\WeatherServerdotNet.csproj.CoreCompileInputs.cache
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\obj\Debug\WeatherS.8F28A875.Up2Date
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\obj\Debug\WeatherServerdotNet.exe
+D:\GitHub\WeatherReport\WeatherReport_cs\WeatherServerdotNet\obj\Debug\WeatherServerdotNet.pdb

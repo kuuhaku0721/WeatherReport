@@ -20,14 +20,27 @@ namespace WeatherReport_cs
     /// </summary>
     public partial class LoginWindow : Window
     {
+        enum Status
+        {
+            LOGIN = 123,
+            SEARCH,
+            LOGOUT,
+            RESPONSE
+        }
+
         private string username;
         private string password;
 
         private bool isMousePressed;
         private Point mousePos;
+
+        private WeatherClient client;
         public LoginWindow()
         {
             InitializeComponent();
+
+            // 先连接服务器
+            client = WeatherClient.GetInstance();
 
             //要保证username和password有值，即不为NULL，以防出现NULLPointerException
             //只是习惯性保险措施，后面也有安全性验证，不赋初值也没事
@@ -77,35 +90,22 @@ namespace WeatherReport_cs
         {
             //加密密码
             string md5Pwd = Encode();  //密码: 123456 --> 49BA59ABBE56E057
-
-            //以用户名为条件，在数据库中查找密码
-            using (var c = new UserEntities())
+            string sendMsg = "LOGIN+" + username + "," + md5Pwd;
+            client.Send(sendMsg);
+            bool flag = false;
+            while (client.que.Count <= 0) { /* waiting */}
+            string response = client.que.Dequeue();
+            string[] strs = response.Split('+');
+            Status stat = (Status)Enum.Parse(typeof(Status), strs[0]);
+            string msg = strs[1];
+            if (stat == Status.RESPONSE)
             {
-                try
-                {
-                    var query = from u in c.UserManager
-                                where u.name == username
-                                select u;
-
-                    //查询结束后比对
-                    var user = query.FirstOrDefault();
-                    if(user != null) 
-                    {
-                        if (md5Pwd.Equals(user.pwd))
-                        {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                catch(Exception ex)
-                {
-                    text_stat.Content = "用户名或密码错误";
-                    text_password.Clear();
-                    text_password.Focus();
-                    return false;
-                }
+                if (msg == "success")
+                    flag = true;
+                else
+                    flag = false;
             }
+            return flag;
         }
         private string Encode()
         {   //将密码加密为16为MD5字符串

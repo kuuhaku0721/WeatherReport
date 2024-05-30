@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UserInfoModelStoreContainer" CdmEntityContainer="UserInfoEntities">
+    <EntitySetMapping Name="UserManager">
+      <EntityTypeMapping TypeName="UserInfoModel.UserManager">
+        <MappingFragment StoreEntitySet="UserManager">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="pwd" ColumnName="pwd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

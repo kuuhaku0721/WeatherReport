@@ -47,17 +47,22 @@ namespace WeatherReport_cs
         public string high;         //最高气温
         public string low;          //最低气温
     };
+    enum Status
+    {
+        // 消息格式：command+msg
+        // 无加密，无格式控制，无帧标识，无帧定界，无序列化
+        LOGIN = 123,
+        SEARCH,
+        LOGOUT,
+        RESPONSE
+    }
 
     public partial class MainWindow : Window
     {
+        // 网络请求用的一些内容
         private string m_cityName;  //城市名
         private string m_cityCode = "410100";  //城市代码  410100为郑州
-
-        //使用方式 jsonUrl = url + cityCode + key [+ extension]
-        private string url = "http://restapi.amap.com/v3/weather/weatherInfo?city=";
-        private string key = "&key=440d2191d8abbf736b3e24e18ec71488";
-        private string extension = "&extensions=all";
-
+        private WeatherClient m_weatherClient;
         //保存当天及预报信息的结构体
         private Today today;
         private Forecast[] forecast = new Forecast[4];
@@ -98,6 +103,9 @@ namespace WeatherReport_cs
             //先登录
             LoginWindow loginProc = new LoginWindow();
             loginProc.ShowDialog();
+
+            // 获取客户端(单例获取，这里已不需要连接)
+            m_weatherClient = WeatherClient.GetInstance();
 
             //设置窗口背景
             Image_Loaded();
@@ -154,8 +162,7 @@ namespace WeatherReport_cs
             Grid.MouseRightButtonDown += Element_MouseRightButtonDown;
 
             //获取网络信息
-            _ = getWeatherInfo(true);  //当日
-            _ = getWeatherInfo(false); //预报
+            GetWeatherInfo(m_cityCode);
         }
 
         /// <summary>
@@ -214,16 +221,13 @@ namespace WeatherReport_cs
         private void b_search_Click(object sender, RoutedEventArgs e)
         {
             m_cityCode = weatherTool.getCodeByName(m_cityName);
-            _ = getWeatherInfo(true);  //当日
-            _ = getWeatherInfo(false); //预报
+            GetWeatherInfo(m_cityCode);
         }
 
         private void b_refresh_Click(object sender, RoutedEventArgs e)
         {
             t_search.Text = "";
-            //刷新 就是重新获取所有信息
-            _ = getWeatherInfo(true);       //当日
-            _ = getWeatherInfo(false);      //预报
+            GetWeatherInfo(m_cityCode);
         }
 
         //重写鼠标监听事件，控制窗口移动
@@ -241,7 +245,7 @@ namespace WeatherReport_cs
             isMousePressed = false;  //记录按下状态
         }
         protected override void OnMouseMove(MouseEventArgs e)
-        {   //TODO:这里运行起来有点问题，参考的是Qt的写法，在Qt中运行起来是很丝滑的，但是这里运行起来会闪烁，但起码，功能有了
+        {
             base.OnMouseMove(e);
 
             if (isMousePressed)
@@ -283,48 +287,46 @@ namespace WeatherReport_cs
         /// <summary>
         /// 以下为网络部分函数
         /// </summary>
-        //获取网络信息
-        private async Task getWeatherInfo(bool isToday)
+        private void GetWeatherInfo(string cityCode)
         {
-            //测试用url：http://restapi.amap.com/v3/weather/weatherInfo?city=410100&key=440d2191d8abbf736b3e24e18ec71488
-            string jsonUrl = url + m_cityCode + key;
-            if (!isToday)
-                jsonUrl += extension;
-
-            //使用 HttpClient 类获取网络请求 
-            using (HttpClient client = new HttpClient())
+            m_weatherClient.Send("SEARCH+" + cityCode);
+            while (m_weatherClient.que.Count <= 0) { /* waiting */}
+            int cnt = 0;
+            while (cnt < 2)
             {
-                try
+                if(m_weatherClient.que.Count > 0)
                 {
-                    //发送 GET 请求并获取响应
-                    HttpResponseMessage response = await client.GetAsync(jsonUrl);
-
-                    //确保请求成功
-                    response.EnsureSuccessStatusCode();
-
-                    //读取响应内容
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    //解析Json数据
-                    if (isToday)  //当天
-                        parseJson(responseBody);
-                    else          //预报
-                        parseJsonForecast(responseBody);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("未查询天气信息，或许是网络问题", "错误", MessageBoxButton.OK, MessageBoxImage.Information);
-                    statMsg.Text += "\n" + ex.Message + "\n";
+                    string[] strs = m_weatherClient.que.Dequeue().Split('+');
+                    Status stat = (Status)Enum.Parse(typeof(Status), strs[0]);
+                    if (stat == Status.RESPONSE)
+                    {
+                        // MessageBox.Show("接收到的json消息为：\n" + strs[1]);
+                        if (strs[1] != "error" && strs[1] == "today")
+                        {
+                            parseJson(strs[2]);
+                            cnt++;
+                        }
+                        else if (strs[1] != "error" && strs[1] == "forecast")
+                        {
+                            parseJsonForecast(strs[2]);
+                            cnt++;
+                        }
+                    }
                 }
             }
         }
-
+        /// <summary>
+        /// 解析预报数据JSON
+        /// </summary>
+        /// <param name="responseBody"></param>
         private void parseJsonForecast(string responseBody)
         {
             dynamic jsonObj = JsonConvert.DeserializeObject(responseBody);
             //json对象中有一个forecasts数组，数组内只有一个json对象
             //数组内json对象内有一个casts数组 casts数组内存有四天的信息
-            dynamic forecasts = jsonObj.forecasts[0];
+            dynamic forecasts = null;
+            if (jsonObj != null)
+                forecasts = jsonObj.forecasts[0];
             int i = 0;
             foreach (var cast in forecasts.casts)
             {
@@ -340,6 +342,9 @@ namespace WeatherReport_cs
             setLabelContent();
         }
 
+        /// <summary>
+        /// 设置控件内容
+        /// </summary>
         private void setLabelContent()
         {
             //设置预报数据
@@ -374,6 +379,11 @@ namespace WeatherReport_cs
                 };
             }
         }
+        
+        /// <summary>
+        /// 解析当日数据JSON
+        /// </summary>
+        /// <param name="responseBody"></param>
         private void parseJson(string responseBody)
         {
             dynamic jsonObj = JsonConvert.DeserializeObject(responseBody);
@@ -392,6 +402,10 @@ namespace WeatherReport_cs
             judgeExist();       //判断表是否存在
             insertToDb();       //插入数据库
         }
+
+        /// <summary>
+        /// 设置控件内容
+        /// </summary>
         private void setTodayContent()
         {
             //大标题属性
@@ -611,7 +625,7 @@ namespace WeatherReport_cs
             //启动计时器
             timer.Start();
         }
-
+        // 加载图片
         private void Image_Loaded()
         {
             bkground.Source = img_weaUI;
@@ -715,6 +729,7 @@ namespace WeatherReport_cs
                 label_date.Visibility = Visibility.Hidden;
                 label_temparture.Visibility = Visibility.Hidden;
                 lable_location.Visibility = Visibility.Hidden;
+                label_weather.Visibility = Visibility.Hidden;
                 lab_title.Visibility = Visibility.Hidden;
                 lab_Logo.Visibility = Visibility.Hidden;
                 label_con.Visibility = Visibility.Hidden;

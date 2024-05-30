@@ -207,7 +207,7 @@
             <Label Content="17°"  FontStretch="Medium" Name="label_temparture" Opacity="0.8" Foreground="#FFFCFF00"  FontFamily="方正粗黑宋简体" FontSize="65" Height="99" VerticalAlignment="Center" FontWeight="Bold" FontStyle="Italic" RenderTransformOrigin="0.618,0.63" Margin="126,0,0,0" Grid.ColumnSpan="2"/>
             <Label Grid.Column="2" Name="lable_location" Content="河南省" HorizontalAlignment="Center" Height="39" Margin="10,21,0,0"  Foreground="#FFFCFF00" FontSize="18" Opacity="0.8" FontFamily="方正粗黑宋简体" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" Width="124"/>
             <Label Grid.Column="2" Name="label_weather" HorizontalAlignment="Center" Margin="10,50,0,0" VerticalAlignment="Top" Height="57" Width="118">
-                <Viewbox>
+                <Viewbox Name="label_weather_viewBox">
                     <Image Source="Images/day/晴.png" Height="231" Width="198"></Image>
                 </Viewbox>
             </Label>
