@@ -63,6 +63,7 @@ namespace WeatherReport_cs
         private string m_cityName;  //城市名
         private string m_cityCode = "410100";  //城市代码  410100为郑州
         private WeatherClient m_weatherClient;
+        private List<string> citys;
         //保存当天及预报信息的结构体
         private Today today;
         private Forecast[] forecast = new Forecast[4];
@@ -85,6 +86,13 @@ namespace WeatherReport_cs
         private string uri_miya = "Images/米娅.png";
         private BitmapImage img_weaUI = new BitmapImage(new Uri("Images/weaUI.png", UriKind.Relative));
         private BitmapImage img_miya = new BitmapImage(new Uri("Images/米娅.png", UriKind.Relative));
+        // 白天 晚上，傍晚 TODO 如果某些天气类型也需要，可以在后面追加，如果数量校多，请换用其他存储形式如map
+        private BitmapImage img_Sunrise = new BitmapImage(new Uri("Images/米娅.png", UriKind.Relative));
+        private BitmapImage img_Sunset = new BitmapImage(new Uri("Images/米娅.png", UriKind.Relative));
+        private BitmapImage img_Night = new BitmapImage(new Uri("Images/米娅.png", UriKind.Relative));
+        private string uri_Sunrise = "Images/米娅.png";
+        private string uri_Sunset = "Images/米娅.png";
+        private string uri_Night = "Images/米娅.png";
 
         //保存窗口内所有的label控件，用于控制窗口显示
         List<Label> lst_week = new List<Label>();
@@ -142,6 +150,18 @@ namespace WeatherReport_cs
                 forecast[i].nighttype = "NULL";
                 forecast[i].high = "NULL";
                 forecast[i].low = "NULL";
+            }
+
+            // 初始化列表项
+            citys = new List<string>();
+            citys.Add("郑州");
+            citys.Add("开封");
+            citys.Add("北京");
+
+            // 初始化窗口中的列表
+            foreach (string city in citys)
+            {
+                lstBox.Items.Add(city);
             }
 
             //获取当前路径
@@ -220,8 +240,15 @@ namespace WeatherReport_cs
 
         private void b_search_Click(object sender, RoutedEventArgs e)
         {
-            m_cityCode = weatherTool.getCodeByName(m_cityName);
-            GetWeatherInfo(m_cityCode);
+            if(m_cityName != null && m_cityName != "")
+            {
+                m_cityCode = weatherTool.getCodeByName(m_cityName);
+                GetWeatherInfo(m_cityCode);
+            }
+            else
+            {
+                MessageBox.Show("输入内容为空，请输入正确的城市名", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void b_refresh_Click(object sender, RoutedEventArgs e)
@@ -420,15 +447,25 @@ namespace WeatherReport_cs
             {
                 uri += "night/" + today.type + ".png";
                 label_con.Content = "晚上好，希望您每天都能迎来美好的明天。";
+
+                // TODO 设置晚上的背景图
+                bkground.Source = img_Sunset;
+                bkground_uri = uri_Sunset;
             }
             else
             {
                 uri += "day/" + today.type + ".png";
+
+                // TODO 设置白天的背景图
+                bkground.Source = img_Sunrise;
+                bkground_uri = uri_Sunrise;
             }
             label_weather.Content = new Image
             {
                 Source = new BitmapImage(new Uri(uri, UriKind.Relative))
             };
+
+            // TODO 根据天气类型设置背景图片，天气类型在today.type 是个字符串类型，可以直接判断
 
             //网格四个属性
             label_City.Content = today.province;
@@ -838,6 +875,54 @@ namespace WeatherReport_cs
              * 简单的加密用MD5足矣，只要用户设置的密码稍微复杂一丢丢，MD5的安全系数是相当高的
              * 即使没必要，但我不能没有
              */
+        }
+
+        /// <summary>
+        /// 列表中选择某一个城市，然后查询该城市的信息并显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = lstBox.SelectedItem;
+            if(item != null)
+            {
+                string selectedCity = item.ToString();
+                m_cityName = selectedCity;
+                m_cityCode = weatherTool.getCodeByName(m_cityName);
+                GetWeatherInfo(m_cityCode);
+            }
+        }
+        /// <summary>
+        /// 将当前的城市信息添加至列表中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_addToList_Click(object sender, RoutedEventArgs e)
+        {
+            // 忘了初始化设定的是啥了，总之全都判断了就好了
+            if(m_cityName !=  null && m_cityName != "")
+            {
+                if (citys.Contains(m_cityName))
+                {
+                    MessageBox.Show("当前城市已存在，请更换为其他城市...");
+                }
+                else
+                {
+                    lstBox.Items.Add(m_cityName);
+                }
+            }
+        }
+        /// <summary>
+        /// 清空列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_clearList_Click(object sender, RoutedEventArgs e)
+        {
+            // 先清空选择项
+            lstBox.SelectedItem = null;
+            lstBox.Items.Clear();
         }
     }
 }
