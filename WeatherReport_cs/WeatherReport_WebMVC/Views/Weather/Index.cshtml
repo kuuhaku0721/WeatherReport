@@ -1,0 +1,56 @@
+﻿@model WeatherModel
+@{
+    ViewData["Title"] = "Weather Page";
+}
+
+
+@* 做页面的时候，数据来源就是@Model.dict_all["key"] 需要展示数据的地方直接放上去就行 *@
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>This is Kuu Page <a href="https://www.bh3.com">start here</a>.</p>
+    <p>province： @Model.dict_all["province"]</p>
+    <p>city： @Model.dict_all["city"]</p>
+    <p>type： @Model.dict_all["type"]</p>
+    <p>temperature： @Model.dict_all["temperature"]</p>
+    <p>fx： @Model.dict_all["fx"]</p>
+    <p>fl： @Model.dict_all["fl"]</p>
+    <p>humidity： @Model.dict_all["humidity"]</p>
+    <p>date： @Model.dict_all["date"]</p>
+    <p>下面是4天的预报信息</p>
+    <p>预报：第一天</p>
+    <p>date： @Model.dict_all["0week"]</p>
+    <p>date： @Model.dict_all["0date"]</p>
+    <p>date： @Model.dict_all["0power"]</p>
+    <p>date： @Model.dict_all["0daytype"]</p>
+    <p>date： @Model.dict_all["0nighttype"]</p>
+    <p>date： @Model.dict_all["0high"]</p>
+    <p>date： @Model.dict_all["0low"]</p>
+    <p>预报：第二天</p>
+    <p>date： @Model.dict_all["1week"]</p>
+    <p>date： @Model.dict_all["1date"]</p>
+    <p>date： @Model.dict_all["1power"]</p>
+    <p>date： @Model.dict_all["1daytype"]</p>
+    <p>date： @Model.dict_all["1nighttype"]</p>
+    <p>date： @Model.dict_all["1high"]</p>
+    <p>date： @Model.dict_all["1low"]</p>
+    <p>预报：第三天</p>
+    <p>date： @Model.dict_all["2week"]</p>
+    <p>date： @Model.dict_all["2date"]</p>
+    <p>date： @Model.dict_all["2power"]</p>
+    <p>date： @Model.dict_all["2daytype"]</p>
+    <p>date： @Model.dict_all["2nighttype"]</p>
+    <p>date： @Model.dict_all["2high"]</p>
+    <p>date： @Model.dict_all["2low"]</p>
+    <p>预报：第四天</p>
+    <p>date： @Model.dict_all["3week"]</p>
+    <p>date： @Model.dict_all["3date"]</p>
+    <p>date： @Model.dict_all["3power"]</p>
+    <p>date： @Model.dict_all["3daytype"]</p>
+    <p>date： @Model.dict_all["3nighttype"]</p>
+    <p>date： @Model.dict_all["3high"]</p>
+    <p>date： @Model.dict_all["3low"]</p>
+</div>
+
+
+

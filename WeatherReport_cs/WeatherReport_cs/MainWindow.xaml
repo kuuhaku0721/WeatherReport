@@ -56,8 +56,8 @@
                 </Grid.ColumnDefinitions>
                 <Label Name="Before_city" Style="{DynamicResource LabelStyle5}" Content="城市"  HorizontalAlignment="Left" Height="45" Margin="40,0,0,0" VerticalAlignment="Center" Width="83" RenderTransformOrigin="2.113,0.737"/>
                 <Label Name="Before_shidu" Content="湿度"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="1" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
-                <Label Name="Before_fengxiang" Content="风向"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="2" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
-                <Label Name="Before_fengli" Content="风力"  HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="69" Grid.Row="3" Style="{DynamicResource LabelStyle5}" Margin="0,5,0,0"/>
+                <Label Name="Before_fengxiang" Content="风力"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="2" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
+                <Label Name="Before_fengli" Content="风向"  HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="69" Grid.Row="3" Style="{DynamicResource LabelStyle5}" Margin="0,5,0,0"/>
                 <Label Name="label_City"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Center" Width="104" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Style="{DynamicResource LabelStyle5}"/>
                 <Label Name="label_shidu"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="82" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Margin="0,42,0,0" Grid.RowSpan="2" Style="{DynamicResource LabelStyle5}"/>
                 <Label Name="label_fengli"  HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="82" RenderTransformOrigin="2.113,0.737" Grid.Column="1" Margin="0,2,0,0" Grid.RowSpan="2" Grid.Row="2" Style="{DynamicResource LabelStyle5}"/>

@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1;
+using ModelBridge;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,9 @@ namespace WeatherReport_cs
         WeatherTool weatherTool = new WeatherTool();
         bool bTableExist = false;
         private List<string> m_tableName;
+
+        // 转存用的map
+        private Dictionary<string, string> map;
 
         //一些图片定义，用来实现背景替换功能
         private Timer timer;
@@ -164,6 +168,9 @@ namespace WeatherReport_cs
                 lstBox.Items.Add(city);
             }
 
+            // 初始化转存map
+            map = new Dictionary<string, string>();
+
             //获取当前路径
             string absPath = Assembly.GetExecutingAssembly().Location;
             string[] paths = absPath.Split('\\');
@@ -240,7 +247,7 @@ namespace WeatherReport_cs
 
         private void b_search_Click(object sender, RoutedEventArgs e)
         {
-            if(m_cityName != null && m_cityName != "")
+            if (m_cityName != null && m_cityName != "")
             {
                 m_cityCode = weatherTool.getCodeByName(m_cityName);
                 GetWeatherInfo(m_cityCode);
@@ -316,12 +323,13 @@ namespace WeatherReport_cs
         /// </summary>
         private void GetWeatherInfo(string cityCode)
         {
+            map.Clear();
             m_weatherClient.Send("SEARCH+" + cityCode);
             while (m_weatherClient.que.Count <= 0) { /* waiting */}
             int cnt = 0;
             while (cnt < 2)
             {
-                if(m_weatherClient.que.Count > 0)
+                if (m_weatherClient.que.Count > 0)
                 {
                     string[] strs = m_weatherClient.que.Dequeue().Split('+');
                     Status stat = (Status)Enum.Parse(typeof(Status), strs[0]);
@@ -342,6 +350,7 @@ namespace WeatherReport_cs
                 }
             }
         }
+
         /// <summary>
         /// 解析预报数据JSON
         /// </summary>
@@ -366,7 +375,35 @@ namespace WeatherReport_cs
                 forecast[i].low = cast.nighttemp;
                 i++;
             }
+
+            // TODO 这里的预报信息也要转存一个map，之后传送给桥接类
+            ChangeToMapForecast();
+
             setLabelContent();
+        }
+
+        private void ChangeToMapForecast()
+        {
+            int i = 0;
+            foreach (var cast in forecast)
+            {
+                // 因为可以确定预报信息只有四天，所以这里存储就直接写死了
+                // 这并不好，非常不好，但是本身这就是在原本的方法无法实现的情况下妥协的结果
+                // 所以秉持着先满足功能的前提下，就暂时这么写吧
+                map["" + i + "week"] = forecast[i].week;
+                map["" + i + "date"] = forecast[i].date;
+                map["" + i + "power"] = forecast[i].power;
+                map["" + i + "daytype"] = forecast[i].daytype;
+                map["" + i + "nighttype"] = forecast[i].nighttype;
+                map["" + i + "high"] = forecast[i].high;
+                map["" + i + "low"] = forecast[i].low;
+                i++;
+            }
+            if (map.Count == 36)
+            {
+                MessageBox.Show("调用写入文件，当前Count = " + map.Count);
+                WeatherInfoMap.GetInstance().SetTodayMap(map);
+            }
         }
 
         /// <summary>
@@ -406,7 +443,7 @@ namespace WeatherReport_cs
                 };
             }
         }
-        
+
         /// <summary>
         /// 解析当日数据JSON
         /// </summary>
@@ -425,10 +462,30 @@ namespace WeatherReport_cs
             today.humidity = todayJson.humidity;
             today.date = todayJson.reporttime;
 
+            // TODO 将这里的today数组转存一个map，待会传给桥接类
+            ChangeToMapToday();
+
             setTodayContent();  //设置窗口显示
             judgeExist();       //判断表是否存在
             insertToDb();       //插入数据库
         }
+        public void ChangeToMapToday()
+        {
+            map.Add("province", today.province);
+            map.Add("city", today.city);
+            map.Add("type", today.type);
+            map.Add("temperature", today.tempature);
+            map.Add("fx", today.fx);
+            map.Add("fl", today.fl);
+            map.Add("humidity", today.humidity);
+            map.Add("date", today.date);
+            if (map.Count == 36)
+            {
+                MessageBox.Show("调用写入文件，当前Count = " + map.Count);
+                WeatherInfoMap.GetInstance().SetTodayMap(map);
+            }
+        }
+
 
         /// <summary>
         /// 设置控件内容
@@ -648,7 +705,7 @@ namespace WeatherReport_cs
             timer = new Timer(5000);
             timer.Elapsed += Timer_Elapsed;
             //更改背景
-            if(bkground_uri.Equals(uri_weaUI))
+            if (bkground_uri.Equals(uri_weaUI))
             {
                 bkground.Source = img_miya;
                 bkground_uri = uri_miya;
@@ -672,9 +729,9 @@ namespace WeatherReport_cs
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("试用时间到，是否要保留现在的背景？", "残念", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            
+
             //只能在创建空间的线程上对控件进行操作，因此需要用这种方法把更改背景的请求转发给计时器线程
-            if(result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes)
             {
                 //nothing  保留，那就是没有动作，等着计时器结束就行了
             }
@@ -682,7 +739,7 @@ namespace WeatherReport_cs
             {
                 if (!bkground.Dispatcher.CheckAccess())  //安全保障
                 {
-                    if(bkground_uri.Equals(uri_miya))
+                    if (bkground_uri.Equals(uri_miya))
                     {
                         bkground.Dispatcher.Invoke(() =>
                         {
@@ -719,19 +776,19 @@ namespace WeatherReport_cs
                     }
                 }
             }
-            
+
             timer.Stop();
         }
         //一键隐藏所有控件，可爱米娅纯享模式
         bool isPure = false;
         private void on_PureEnjoyment_click(object sender, RoutedEventArgs e)
         {
-            if(!isPure)
+            if (!isPure)
             {
                 isPure = true;
 
                 //隐藏所有控件
-                foreach(Label label in lst_week)
+                foreach (Label label in lst_week)
                 {
                     label.Visibility = Visibility.Hidden;
                 }
@@ -776,7 +833,7 @@ namespace WeatherReport_cs
                 b_search.Visibility = Visibility.Hidden;
                 b_refresh.Visibility = Visibility.Hidden;
                 forecast_total.Visibility = Visibility.Hidden;
-                today_total.Visibility= Visibility.Hidden;
+                today_total.Visibility = Visibility.Hidden;
 
                 menu_mia.Header = "恢复";
             }
@@ -885,7 +942,7 @@ namespace WeatherReport_cs
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = lstBox.SelectedItem;
-            if(item != null)
+            if (item != null)
             {
                 string selectedCity = item.ToString();
                 m_cityName = selectedCity;
@@ -901,7 +958,7 @@ namespace WeatherReport_cs
         private void btn_addToList_Click(object sender, RoutedEventArgs e)
         {
             // 忘了初始化设定的是啥了，总之全都判断了就好了
-            if(m_cityName !=  null && m_cityName != "")
+            if (m_cityName != null && m_cityName != "")
             {
                 if (citys.Contains(m_cityName))
                 {

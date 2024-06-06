@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "WeatherReport_WebMVC/1.0.0": {
+        "dependencies": {
+          "ModelBridge": "1.0.0"
+        },
+        "runtime": {
+          "WeatherReport_WebMVC.dll": {}
+        }
+      },
+      "ModelBridge/1.0.0": {
+        "runtime": {
+          "ModelBridge.exe": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WeatherReport_WebMVC/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ModelBridge/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
