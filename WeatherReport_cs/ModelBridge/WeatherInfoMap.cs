@@ -7,6 +7,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+#pragma warning disable IDE0060
+#pragma warning disable IDE1006
+
 namespace ModelBridge
 {
     public class WeatherInfoMap
@@ -38,9 +41,10 @@ namespace ModelBridge
             string userRoot = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             userRoot += "\\AppData\\Local\\Temp\\";
 
-            userRoot = "C:\\Users\\Accel\\Desktop\\";
+            // 测试用桌面路径
+            // userRoot = "C:\\Users\\Accel\\Desktop\\";
 
-            WriteDictionaryToFile(dict_all, userRoot + "dictionary.txt");
+            WriteDictionaryToFile(dict, userRoot + "dictionary.txt");
         }
         // 把文件写到本地去，通过本地文件进行项目间的传递
         public void WriteDictionaryToFile(Dictionary<string, string> dictionary, string filePath)

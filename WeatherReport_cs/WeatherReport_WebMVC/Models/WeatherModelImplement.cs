@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Text.Json;
 
+#pragma warning disable IDE0044
+
 namespace WeatherReport_WebMVC.Models
 {
     public class WeatherModelImplement : IWeatherModelService
@@ -20,7 +22,8 @@ namespace WeatherReport_WebMVC.Models
             string userRoot = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             userRoot += "\\AppData\\Local\\Temp\\";
 
-            userRoot = "C:\\Users\\Accel\\Desktop\\";
+            // 测试用桌面路径
+            // userRoot = "C:\\Users\\Accel\\Desktop\\";
 
             ReadDictionaryFromFile(userRoot + "dictionary.txt");
             if (dict_all == null 

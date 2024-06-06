@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+
+#pragma warning disable IDE0044
+#pragma warning disable IDE1006
+#pragma warning disable IDE0028
+
 
 namespace WeatherReport_cs
 {
@@ -69,6 +76,9 @@ namespace WeatherReport_cs
         private Today today;
         private Forecast[] forecast = new Forecast[4];
         private string sunset = " 19:00:00";  //默认日落时间，用来判断属于白天还是晚上
+
+        // 用于调用浏览器的http请求
+        private static readonly HttpClient httpClient = new HttpClient();
 
         //用于鼠标控制移动窗口
         private bool isMousePressed;
@@ -187,6 +197,9 @@ namespace WeatherReport_cs
 
             //设置右键菜单
             Grid.MouseRightButtonDown += Element_MouseRightButtonDown;
+
+            // 添加Logo的鼠标点击事件
+            lab_Logo.MouseLeftButtonUp += Label_Click;
 
             //获取网络信息
             GetWeatherInfo(m_cityCode);
@@ -323,7 +336,9 @@ namespace WeatherReport_cs
         /// </summary>
         private void GetWeatherInfo(string cityCode)
         {
+            // 这个clear要不要无所谓，反正下面map映射都是覆盖而不是添加
             map.Clear();
+
             m_weatherClient.Send("SEARCH+" + cityCode);
             while (m_weatherClient.que.Count <= 0) { /* waiting */}
             int cnt = 0;
@@ -471,18 +486,42 @@ namespace WeatherReport_cs
         }
         public void ChangeToMapToday()
         {
-            map.Add("province", today.province);
-            map.Add("city", today.city);
-            map.Add("type", today.type);
-            map.Add("temperature", today.tempature);
-            map.Add("fx", today.fx);
-            map.Add("fl", today.fl);
-            map.Add("humidity", today.humidity);
-            map.Add("date", today.date);
+            map["province"] = today.province;
+            map["city"] = today.city;
+            map["type"] = today.type;
+            map["temperature"] = today.tempature;
+            map["fx"] = today.fx;
+            map["fl"] = today.fl;
+            map["humidity"] = today.humidity;
+            map["date"] = today.date;
             if (map.Count == 36)
             {
                 MessageBox.Show("调用写入文件，当前Count = " + map.Count);
                 WeatherInfoMap.GetInstance().SetTodayMap(map);
+            }
+        }
+        /// <summary>
+        /// 左上角 Logo标签的鼠标点击事件 点击后跳转到浏览器打开
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Label_Click(object sender, RoutedEventArgs e)
+        {
+            await CallWebApi();
+        }
+        private async Task CallWebApi()
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync("https://localhost:7084/api/Client");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {responseBody}") { CreateNoWindow = true });
+                // MessageBox.Show(responseBody, "API Response");
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Request error: {ex.Message}", "Error");
             }
         }
 

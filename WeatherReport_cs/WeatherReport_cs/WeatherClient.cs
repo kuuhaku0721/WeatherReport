@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+#pragma warning disable IDE0044
+#pragma warning disable IDE0059
+#pragma warning disable CS0168
+
 namespace WeatherReport_cs
 {
     internal class WeatherClient
