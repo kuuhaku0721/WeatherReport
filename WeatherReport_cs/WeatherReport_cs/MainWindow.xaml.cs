@@ -71,7 +71,7 @@ namespace WeatherReport_cs
         private string m_cityName;  //城市名
         private string m_cityCode = "410100";  //城市代码  410100为郑州
         private WeatherClient m_weatherClient;
-        private List<string> citys;
+        private HashSet<string> citys;
         //保存当天及预报信息的结构体
         private Today today;
         private Forecast[] forecast = new Forecast[4];
@@ -167,7 +167,7 @@ namespace WeatherReport_cs
             }
 
             // 初始化列表项
-            citys = new List<string>();
+            citys = new HashSet<string>();
             citys.Add("郑州");
             citys.Add("开封");
             citys.Add("北京");
@@ -1007,6 +1007,7 @@ namespace WeatherReport_cs
                 }
                 else
                 {
+                    citys.Add(m_cityName);
                     lstBox.Items.Add(m_cityName);
                 }
             }

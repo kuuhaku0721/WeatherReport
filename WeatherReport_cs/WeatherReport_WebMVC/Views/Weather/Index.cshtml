@@ -6,7 +6,7 @@
 
 @* 做页面的时候，数据来源就是@Model.dict_all["key"] 需要展示数据的地方直接放上去就行 *@
 
-<div class="text-center">
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>This is Kuu Page <a href="https://www.bh3.com">start here</a>.</p>
     <p>province： @Model.dict_all["province"]</p>
@@ -50,7 +50,132 @@
     <p>date： @Model.dict_all["3nighttype"]</p>
     <p>date： @Model.dict_all["3high"]</p>
     <p>date： @Model.dict_all["3low"]</p>
-</div>
+</div> *@
 
+@{
+    // 先从map里面把预报信息提取出来，这一步提取是为了下面方便用循环
+    var forecasts = new List<Dictionary<string, string>>();
+    for (int i = 0; i < 4; i++)
+    {
+        var forecast = new Dictionary<string, string>
+        {
+            {"" + i + "week", Model.dict_all["" + i + "week"] },
+            {"" + i + "date", Model.dict_all["" + i + "date"] },
+            {"" + i + "power", Model.dict_all["" + i + "power"] },
+            {"" + i + "daytype", Model.dict_all["" + i + "daytype"] },
+            {"" + i + "nighttype", Model.dict_all["" + i + "nighttype"] },
+            {"" + i + "high", Model.dict_all["" + i + "high"] },
+            {"" + i + "low", Model.dict_all["" + i + "low"] }
+        };
+        forecasts.Add(forecast);
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast(kuuhaku version)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #2b2b2b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>当天气象信息</h1>
+        <table>
+            <tr>
+                <th>省份</th>
+                <th>城市</th>
+                <th>天气情况</th>
+                <th>气温</th>
+                <th>风向</th>
+                <th>风力</th>
+                <th>湿度</th>
+                <th>预报时间</th>
+            </tr>
+            <tr>
+                <td>@Model.dict_all["province"]</td>
+                <td>@Model.dict_all["city"]</td>
+                <td>@Model.dict_all["type"]</td>
+                <td>@Model.dict_all["temperature"]°C</td>
+                <td>@Model.dict_all["fx"]风</td>
+                <td>@Model.dict_all["fl"]级</td>
+                <td>@Model.dict_all["humidity"]%</td>
+                <td>@Model.dict_all["date"]</td>
+            </tr>
+        </table>
+        <h1>    </h1>
+        <h2>    </h2>
+        <h2>接下来四天的预报信息捏</h2>
+        <table>
+            <tr>
+                <th>星期</th>
+                <th>日期</th>
+                <th>风力等级区间</th>
+                <th>白天天气类型</th>
+                <th>夜晚天气类型</th>
+                <th>最高气温</th>
+                <th>最低气温</th>
+            </tr>
+            @for (int i = 0; i < 4; i++)
+            {
+                <tr>
+                    <td>@forecasts[i]["" + i + "week"]</td>
+                    <td>@forecasts[i]["" + i + "date"]</td>
+                    <td>@forecasts[i]["" + i + "power"]级</td>
+                    <td>@forecasts[i]["" + i + "daytype"]</td>
+                    <td>@forecasts[i]["" + i + "nighttype"]</td>
+                    <td>@forecasts[i]["" + i + "high"]°C</td>
+                    <td>@forecasts[i]["" + i + "low"]°C</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
 
 

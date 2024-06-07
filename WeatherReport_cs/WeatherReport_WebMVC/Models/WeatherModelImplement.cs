@@ -31,6 +31,11 @@ namespace WeatherReport_WebMVC.Models
             {
                 Console.WriteLine("现在拿到的today的数量, dict_today.Count = " + WeatherInfoMap.GetInstance().dict_all.Count);
                 Console.WriteLine("空转ing...");
+                Console.WriteLine("[WRAN]");
+                Console.WriteLine("如果在您第一次打开的时候显示的是一堆placeholder占位符\n" +
+                    "不用担心，这是因为第一次打开没有数据，并不是出错，属于正常现象\n" +
+                    "之后通过点击客户端左上角Logo再次打开浏览器页面即可看到数据");
+                Console.WriteLine("[WRAN]");
                 return model;
             }
             Console.WriteLine("获取到当天信息...");
