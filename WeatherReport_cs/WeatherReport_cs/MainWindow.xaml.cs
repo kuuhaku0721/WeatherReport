@@ -416,7 +416,7 @@ namespace WeatherReport_cs
             }
             if (map.Count == 36)
             {
-                MessageBox.Show("调用写入文件，当前Count = " + map.Count);
+                // MessageBox.Show("调用写入文件，当前Count = " + map.Count);
                 WeatherInfoMap.GetInstance().SetTodayMap(map);
             }
         }
@@ -494,9 +494,11 @@ namespace WeatherReport_cs
             map["fl"] = today.fl;
             map["humidity"] = today.humidity;
             map["date"] = today.date;
+            // 这里直接判断了36，是一个非常危险的行为，虽然很简单
+            // 上面因为没有分当天和预报，全都写一块了，所以这么判断反倒是最省事的写法
             if (map.Count == 36)
             {
-                MessageBox.Show("调用写入文件，当前Count = " + map.Count);
+                // MessageBox.Show("调用写入文件，当前Count = " + map.Count);
                 WeatherInfoMap.GetInstance().SetTodayMap(map);
             }
         }

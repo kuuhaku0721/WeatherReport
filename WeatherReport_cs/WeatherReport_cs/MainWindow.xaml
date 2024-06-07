@@ -54,7 +54,7 @@
                     <ColumnDefinition Width="150"/>
 
                 </Grid.ColumnDefinitions>
-                <Label Name="Before_city" Style="{DynamicResource LabelStyle5}" Content="城市"  HorizontalAlignment="Left" Height="45" Margin="40,0,0,0" VerticalAlignment="Center" Width="83" RenderTransformOrigin="2.113,0.737"/>
+                <Label Name="Before_city" Style="{DynamicResource LabelStyle5}" Content="省份"  HorizontalAlignment="Left" Height="45" Margin="40,0,0,0" VerticalAlignment="Center" Width="83" RenderTransformOrigin="2.113,0.737"/>
                 <Label Name="Before_shidu" Content="湿度"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="1" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
                 <Label Name="Before_fengxiang" Content="风力"  HorizontalAlignment="Left" Height="45" VerticalAlignment="Center" Width="82" Grid.Row="2" Margin="41,0,0,0" Style="{DynamicResource LabelStyle5}"/>
                 <Label Name="Before_fengli" Content="风向"  HorizontalAlignment="Center" Height="44" VerticalAlignment="Top" Width="69" Grid.Row="3" Style="{DynamicResource LabelStyle5}" Margin="0,5,0,0"/>
@@ -89,7 +89,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0" Grid.Column="0"  Background="#FF955CDD" Opacity="0.7" Margin="4,0,0,0">
-                    <Label Style="{DynamicResource LabelStyle6}"  x:Name="week01"  />
+                    <Label Style="{DynamicResource LabelStyle6}"  x:Name="week01" Margin="-4,0,0,4"  />
                 </Grid>
                 <Grid Grid.Row="0" Grid.Column="1" Background="#FF955CDD" Opacity="0.7">
                     <Label Name="week02"   Style="{DynamicResource LabelStyle6}"/>
@@ -187,17 +187,17 @@
                 </Grid>
 
                 <Grid Grid.Row="6" Grid.Column="0" Background="#FF4D0BA0" Opacity="0.7">
-                    <Label  Name="low01" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+                    <Label  Name="low01" FontSize="25" Foreground="Wheat" HorizontalContentAlignment="Center"  Margin="12,1,20,4" Content=" "/>
 
                 </Grid>
                 <Grid Grid.Row="6" Grid.Column="1" Background="#FF4D0BA0" Opacity="0.7">
-                    <Label  Name="low02" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+                    <Label  Name="low02" FontSize="25" Foreground="Wheat" HorizontalContentAlignment="Center" Margin="12,1,20,4"/>
                 </Grid>
                 <Grid Grid.Row="6" Grid.Column="2" Background="#FF4D0BA0" Opacity="0.7">
-                    <Label  Name="low03" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+                    <Label  Name="low03" FontSize="25" Foreground="Wheat" Margin="12,1,20,4" HorizontalContentAlignment="Center"/>
                 </Grid>
                 <Grid Grid.Row="6" Grid.Column="3" Background="#FF4D0BA0" Opacity="0.7" >
-                    <Label  Name="low04" FontSize="25" Foreground="Wheat" Margin="12,1,20,4"/>
+                    <Label  Name="low04" FontSize="25" Foreground="Wheat" Margin="12,1,20,4" HorizontalContentAlignment="Center"/>
                 </Grid>
             </Grid>
             <Grid Margin="10,62,415,283" Background="Transparent" >
@@ -216,13 +216,40 @@
                 <Label Name="label_con" Content="祝愿您拥有幸福快乐的每一天" Opacity="0.5" Foreground="#FFFCFF00" FontSize="13"   FontWeight="Bold" FontStyle="Italic" HorizontalAlignment="Left" Margin="5,78,0,0" Width="262" Height="32" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
             </Grid>
             <DataGrid Name="dataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionMode="Single" CellEditEnding="dataGrid_CellEditEnding" Background="#FF4D0BA0" Opacity="0.5" Foreground="#FF4D0BA0" FontFamily="Microsoft YaHei" HorizontalAlignment="Left" Width="603" Height="103" VerticalAlignment="Top" Margin="17,362,0,0"/>
-            <TextBox Name="statMsg" Text="         愿你每天都安好" FontSize="15" Opacity="0.5" Foreground="Red" Background="#FF4D0BA0" HorizontalAlignment="Center" Margin="625,362,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="195"/>
+            <TextBox Name="statMsg" Text="      愿你每天都安好" FontSize="18" Opacity="0.5" FontWeight="Bold" Foreground="#FFFCFF00" Background="#FF4D0BA0" HorizontalAlignment="Center" Margin="625,362,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="93" Width="195"/>
 
         </Grid>
         <Grid Name="Left_AdditionGrid" Height="480" Width="120" Margin="0 0 830 0" Background="Azure">
-            <ListBox Name="lstBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,0,100" SelectionChanged="ListBox_SelectionChanged" HorizontalContentAlignment="Center" FontSize="17" FontStretch="Expanded"/>
-            <Button Name="btn_addToList" Content="添加至列表" HorizontalAlignment="Center" Margin="0,385,0,0" VerticalAlignment="Top" Width="100" Height="29" Click="btn_addToList_Click"/>
-            <Button x:Name="btn_clearList" Content="清空列表" HorizontalAlignment="Center" Margin="0,419,0,0" VerticalAlignment="Top" Width="100" Height="29" Click="btn_clearList_Click"/>
+            <ListBox Style="{DynamicResource ListBoxStyle1}" Name="lstBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,0,100" FontFamily="方正粗黑宋体" SelectionChanged="ListBox_SelectionChanged" HorizontalContentAlignment="Center" FontSize="17" FontStretch="Expanded">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="#FF4D0BA0"/>
+                        <Setter Property="Foreground" Value="#FFFCFF00" />
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#FF681FC5"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            <Button Name="btn_addToList" Content="添加至列表" Background="Blue" Foreground="#FFFCFF00" HorizontalAlignment="Center" Margin="0,380,0,0" VerticalAlignment="Top" Width="120" Height="46" Click="btn_addToList_Click" Style="{DynamicResource ButtonStyle1}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="btn_clearList" Content="清空列表" Background="Blue" Foreground="#FFFCFF00" HorizontalAlignment="Center" Margin="0,426,0,0" VerticalAlignment="Top" Width="120" Height="54" Click="btn_clearList_Click" Style="{DynamicResource ButtonStyle1}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
 
         </Grid>
     </Grid>

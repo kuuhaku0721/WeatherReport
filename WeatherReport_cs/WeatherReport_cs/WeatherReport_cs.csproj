@@ -280,6 +280,10 @@
     <Compile Include="夜之城.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Page Include="ButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
